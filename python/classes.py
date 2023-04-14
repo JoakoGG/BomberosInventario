@@ -4,6 +4,7 @@ class Container:
     def __init__(self,name):
         self.name = name
         self.itemList = []
+
     
     def getName(self):
         return self.name
@@ -59,18 +60,67 @@ class Locker(Container):
         return self.parent_truck
     def getParentTruckName(self):
         return self.parent_truck.getName()
+
+
+#Visualizar informacion de Items dentro de Locker 
+    def getItemObject(self,item_name):
+        for l in self.itemList:
+            if l.getName() == item_name:
+                return l
+        return None
+    def getItemName(self,item_name):
+        for l in self.itemList:
+            if l.getName() == item_name:
+                return l.getName()
+        return None
+
+#Añadir Items al Locker mediante parámetros, método heredado
+#de getItem() agrega cualquier otro tipo de objeto, incluso camiones
+    def createAndAddItem(self,name,description,level):
+        i = Item(str(name),str(description),self,int(level))
+        self.addItem(i)
+
     
 
-#Falta creación de clase Item, la cual será contenida tanto por lockers como otros containers
+#Clase Item, es contenida por Locker, proximamente por cualquier otro Container
+class Item(Container):
+    def __init__(self, name, description, parent_container,level):
+        super().__init__(name)
+        self.description = description
+        self.parent_locker = parent_container
+        self.level = level
+        self.is_operative = True
 
+
+#Getters y Setters predeterminados
+    def getDescription(self):
+        return self.description
+    def setDescription(self,n_description):
+        self.description = n_description
+
+    def getParentContainer(self):
+        return self.parent_locker
+    def getParentContainerName(self):
+        return self.parent_locker.getName()
+
+    def getLevel(self):
+        return self.level
+    def setLevel(self,n_level):
+        if not n_level.isDigit():
+            return None
+        self.level = n_level
+
+    def getInfoFormated(self):
+        return "Item [Name:"+str(self.getName())+", Description: "+str(self.getDescription())+", Level: "+str(self.getLevel())+"]"
+
+    
         
 
         
 
 #b = Truck("Carro 1")
 #b.addLocker("Locker A","primeros auxilios")
-#print(b.getLockerObject("Locker A").getName())
-#print(b.getLockerObject("Locker A").getParentTruckName())
-#print(b.getLockerObject("Locker A").getItems())
+#b.getLockerObject("Locker A").createAndAddItem("oxigeno","tanque de oxigeno",3)
+
 
 
