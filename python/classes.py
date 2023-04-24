@@ -19,10 +19,17 @@ class Container:
 
 #Container que tiene identificador y lockers (containers) disponibles
 class Truck(Container):
-    def __init__(self, name):
+    def __init__(self, name,parent_container):
         super().__init__(name)
+        self.parent_container = parent_container
         self.lockers = self.itemList
         self.lockers.append(Container("Cabina"))
+
+    def getName(self):
+        return self.name
+    
+    def getParentContainer(self):
+        return self.parent_container
 
     def addLocker(self,locker_name):
         self.lockers.append(Container(name))

@@ -32,7 +32,49 @@ class SQLite3Manager():
             self.action().execute(f"DROP TABLE {table_name}")
         except:
             return None
+    
+    def add_to_table(self,table_name,info_array,columns):
+        #AGREGAR TIENE EL SIGUIENTE FORMATO:
+        #info_array = ["atributo1","atributo2","atributo3",..."atributoN"]
+        #colmns =     ["column1","column2","colum3",..."columnN"]
+        #mismo largo de columnas y atributos
+
+        try:
+            buffer1 = "("
+            for i in range(len(info_array)-1):
+                buffer1+=f"'{info_array[i]}',"
+            buffer1+= f"'{info_array[-1]}')"
+            buffer2 = "("
+            for i in range(len(columns)-1):
+                buffer2+=f'{columns[i]},'
+            buffer2+= f'{columns[-1]})'     
+        except:
+            print("Exception")
+            return None
+        finally:
+            sentencia = f"INSERT INTO {table_name} {buffer2} VALUES {buffer1}"
+            print(sentencia)
+            self.action().execute(sentencia)
+            self.connection.commit()
+
+    def get_row_by_primary_key(self,table_name,primary_key,value):
+        try: 
+            sentencia = f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"
+            return list(self.action().execute(sentencia))
+        except:
+            return None
+
+    def get_column(self,table_name,column):
+        try:
+            sentencia = f"SELECT {column} FROM {table_name}"
+            return self.action().execute(sentencia)
+        except:
+            return None
+
+    def row_exists(self,table_name,primary_key,value):
+        return len(list(self.action().execute(f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"))) > 0
         
+
     
 
 
