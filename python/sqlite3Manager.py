@@ -1,9 +1,9 @@
 import sqlite3
+DATABASE = "/home/chopancho/proyectos/git/BomberosInventario/database.db"
 
 class SQLite3Manager():
-    ...
     def __init__(self,database_name):
-        self.connection = sqlite3.connect(f"../{database_name}.db")
+        self.connection = sqlite3.connect(DATABASE)
         self.cursor = self.connection.cursor()
 
     def action(self):
@@ -19,12 +19,11 @@ class SQLite3Manager():
             for i in range(len(columns)-1):
                 buffer+=f'{columns[i]},'
             buffer+= f'{columns[-1]})'
-            
+            self.action().execute(f"CREATE TABLE {table_name}{buffer}")
         except:
-            print("Exception")
+            print("Table already exists!")
             return None
         finally:
-            self.action().execute(f"CREATE TABLE {table_name}{buffer}")
             self.connection.commit()
     
     def delete_table(self,table_name):
@@ -42,20 +41,21 @@ class SQLite3Manager():
         try:
             buffer1 = "("
             for i in range(len(info_array)-1):
-                buffer1+=f"'{info_array[i]}',"
-            buffer1+= f"'{info_array[-1]}')"
+                buffer1+=f"{info_array[i]},"
+            buffer1+= f"{info_array[-1]})"
             buffer2 = "("
             for i in range(len(columns)-1):
                 buffer2+=f'{columns[i]},'
-            buffer2+= f'{columns[-1]})'     
-        except:
-            print("Exception")
-            return None
-        finally:
+            buffer2+= f'{columns[-1]})'
             sentencia = f"INSERT INTO {table_name} {buffer2} VALUES {buffer1}"
             print(sentencia)
             self.action().execute(sentencia)
-            self.connection.commit()
+            self.connection.commit()     
+        except:
+            print("row already exists!")
+            return None
+        
+            
 
     def get_row_by_primary_key(self,table_name,primary_key,value):
         try: 
@@ -73,9 +73,30 @@ class SQLite3Manager():
 
     def row_exists(self,table_name,primary_key,value):
         return len(list(self.action().execute(f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"))) > 0
+
+    def delete_row(self,table_name,primary_key,primary_key_value):
+        try:
+            sentencia = f"DELETE FROM {table_name} WHERE {primary_key} = '{primary_key_value}'"
+            print(sentencia)
+            self.action().execute(sentencia)
+            self.connection.commit()
+        except:
+            raise Exception
+
+    def modify_row(self,table_name,primary_key,primary_key_value,column,new_column_param):
+        #Modifica solamente un parámetro a la vez, esto para tener mayor control de cada uno de los update
+        try:
+            sentencia = f"UPDATE {table_name} SET {column} = {new_column_param} WHERE {primary_key} LIKE {primary_key_value}"
+            print(sentencia)
+            self.action().execute(sentencia)
+            self.connection.commit()
+        except:
+            raise Exception
+
         
 
-    
+    #UPDATE EN SQL:
+    #SELECT * FROM TABLE_NAME WHERE CONDICION: (BETWEEN, LESS, SIMBOLOS <>>>)
 
 
 
