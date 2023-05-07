@@ -64,12 +64,25 @@
           <string notr="true">QFrame{
 	background-color : rgb(42,53,66);
 	color: white;
-	font: 25 11pt &quot;Microsoft JhengHei Light&quot;;
+	font: 25 15pt &quot;Microsoft JhengHei Light&quot;;
 }
-QPushButton{
+QPushButton {
+	min-height: 50px;
+	text-align: center;
 	background-color : rgb(42,53,66);
 	color: white;
-	font: 25 11pt &quot;Microsoft JhengHei Light&quot;;
+	font: 25 10pt &quot;Microsoft JhengHei Light&quot;;
+}
+QPushButton::hover {
+	background-color : rgb(50,61,74);
+}
+
+QLabel {
+	min-height: 50px;
+	text-align: center;
+}
+Spacer{
+	min-height: 30px
 }
 </string>
          </property>
@@ -84,21 +97,27 @@ QPushButton{
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
-           <number>11</number>
+           <number>0</number>
           </property>
           <property name="sizeConstraint">
            <enum>QLayout::SetMaximumSize</enum>
           </property>
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
           <property name="topMargin">
-           <number>13</number>
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
           </property>
           <property name="bottomMargin">
-           <number>2</number>
+           <number>14</number>
           </property>
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Inventario</string>
+             <string>Inventarios</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -106,7 +125,7 @@ QPushButton{
            </widget>
           </item>
           <item>
-           <spacer name="verticalSpacer">
+           <spacer name="verticalSpacer_5">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -115,14 +134,30 @@ QPushButton{
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>38</width>
-              <height>120</height>
+              <width>20</width>
+              <height>30</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Inventario1">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Preferred</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>38</width>
+              <height>90</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_inv1">
             <property name="text">
              <string>Inventario 1</string>
             </property>
@@ -137,18 +172,18 @@ QPushButton{
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>35</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Inventario2">
+           <widget class="QPushButton" name="btn_inv2">
             <property name="text">
              <string>Inventario 2</string>
             </property>
@@ -163,18 +198,18 @@ QPushButton{
              <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
+             <enum>QSizePolicy::Preferred</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>35</height>
+              <height>40</height>
              </size>
             </property>
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="Inventario3">
+           <widget class="QPushButton" name="btn_inv3">
             <property name="text">
              <string>Inventario 3</string>
             </property>
@@ -188,13 +223,26 @@ QPushButton{
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::MinimumExpanding</enum>
+            </property>
             <property name="sizeHint" stdset="0">
              <size>
               <width>20</width>
-              <height>40</height>
+              <height>50</height>
              </size>
             </property>
            </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_addinv">
+            <property name="text">
+             <string>Nuevo inventario</string>
+            </property>
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -211,6 +259,9 @@ QPushButton{
           <number>0</number>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
+          <property name="spacing">
+           <number>0</number>
+          </property>
           <property name="sizeConstraint">
            <enum>QLayout::SetDefaultConstraint</enum>
           </property>
@@ -247,10 +298,28 @@ QPushButton{
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="spacing">
-              <number>9</number>
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
              </property>
              <item>
-              <widget class="QPushButton" name="Open_Button">
+              <widget class="QPushButton" name="btn_menu">
+               <property name="minimumSize">
+                <size>
+                 <width>50</width>
+                 <height>50</height>
+                </size>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -258,6 +327,12 @@ QPushButton{
                 <iconset>
                  <normalon>assets/588a64e0d06f6719692a2d10.png</normalon>
                 </iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -287,11 +362,22 @@ QPushButton{
               <family>CMU Bright</family>
              </font>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+	min-height: 30px;
+	font-size: 30px;
+	background: rgba(0,0,0,0.05);
+	padding: 10
+}
+QHeaderView::section {
+	font: 15px &quot;Microsoft JhengHei&quot;;
+}</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
             <property name="frameShadow">
-             <enum>QFrame::Raised</enum>
+             <enum>QFrame::Plain</enum>
             </property>
             <property name="lineWidth">
              <number>0</number>
@@ -333,10 +419,25 @@ QPushButton{
                 </size>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
-               <widget class="QWidget" name="page_1">
+               <widget class="QWidget" name="page_inv1">
                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_3">
                    <property name="frameShape">
@@ -345,7 +446,13 @@ QPushButton{
                    <property name="frameShadow">
                     <enum>QFrame::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <property name="lineWidth">
+                    <number>1</number>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_6">
+                    <property name="spacing">
+                     <number>9</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="label_2">
                       <property name="text">
@@ -354,93 +461,115 @@ QPushButton{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTableWidget" name="tableWidget">
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
+                     <widget class="QTableWidget" name="table_inv1">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>200</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="minimumSize">
+                       <size>
+                        <width>0</width>
+                        <height>0</height>
+                       </size>
+                      </property>
+                      <property name="alternatingRowColors">
+                       <bool>false</bool>
+                      </property>
+                      <property name="cornerButtonEnabled">
+                       <bool>false</bool>
+                      </property>
+                      <attribute name="horizontalHeaderVisible">
+                       <bool>true</bool>
+                      </attribute>
+                      <attribute name="horizontalHeaderCascadingSectionResizes">
+                       <bool>true</bool>
+                      </attribute>
+                      <attribute name="horizontalHeaderMinimumSectionSize">
+                       <number>30</number>
+                      </attribute>
+                      <attribute name="horizontalHeaderDefaultSectionSize">
+                       <number>100</number>
+                      </attribute>
+                      <attribute name="horizontalHeaderHighlightSections">
+                       <bool>false</bool>
+                      </attribute>
+                      <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                       <bool>false</bool>
+                      </attribute>
+                      <attribute name="verticalHeaderHighlightSections">
+                       <bool>false</bool>
+                      </attribute>
                      </widget>
                     </item>
                     <item>
-                     <widget class="QPushButton" name="thisButton">
-                      <property name="text">
-                       <string>ThisButton</string>
+                     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="4,1">
+                      <property name="spacing">
+                       <number>0</number>
                       </property>
-                     </widget>
+                      <property name="leftMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>5</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>5</number>
+                      </property>
+                      <item>
+                       <spacer name="horizontalSpacer">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>40</width>
+                          <height>20</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QPushButton" name="btn_agregar">
+                        <property name="minimumSize">
+                         <size>
+                          <width>200</width>
+                          <height>50</height>
+                         </size>
+                        </property>
+                        <property name="text">
+                         <string>Agregar</string>
+                        </property>
+                       </widget>
+                      </item>
+                     </layout>
                     </item>
                    </layout>
                   </widget>
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="page_2">
+               <widget class="QWidget" name="page_inv2">
                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_5">
                    <property name="frameShape">
@@ -450,6 +579,9 @@ QPushButton{
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout">
+                    <property name="spacing">
+                     <number>9</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="label_3">
                       <property name="text">
@@ -458,76 +590,30 @@ QPushButton{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTableWidget" name="tableWidget">
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                     </widget>
+                     <widget class="QTableWidget" name="table_inv2"/>
                     </item>
                    </layout>
                   </widget>
                  </item>
                 </layout>
                </widget>
-               <widget class="QWidget" name="page_3">
+               <widget class="QWidget" name="page_inv3">
                 <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="frame_6">
                    <property name="frameShape">
@@ -537,6 +623,9 @@ QPushButton{
                     <enum>QFrame::Raised</enum>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_10">
+                    <property name="spacing">
+                     <number>9</number>
+                    </property>
                     <item>
                      <widget class="QLabel" name="label_4">
                       <property name="text">
@@ -545,78 +634,7 @@ QPushButton{
                      </widget>
                     </item>
                     <item>
-                     <widget class="QTableWidget" name="tableWidget_2">
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <row>
-                       <property name="text">
-                        <string>Nueva fila</string>
-                       </property>
-                      </row>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                      <column>
-                       <property name="text">
-                        <string>Nueva columna</string>
-                       </property>
-                      </column>
-                     </widget>
+                     <widget class="QTableWidget" name="table_inv3"/>
                     </item>
                    </layout>
                   </widget>
