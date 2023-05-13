@@ -25,9 +25,12 @@ def create_truck_from_table(manager,table_name,item_name):
     truck_parent_container = item_tuple[2]
     return Truck(truck_name,truck_parent_container)
 
-def create_truck_table(manager, truck_name):
+def create_truck_table(manager, truck_name,lockers):
     item_info = ["name varchar(255)","locker varchar(8) NULL","description varchar(255) NULL","level int NULL","PRIMARY KEY (name)"]
     manager.new_table_with_column_params(truck_name,item_info)
+    params_truckPool = ["name","lockers","parent_container"]
+    info_truckPool = [f"'{truck_name}'","1","'sala-camiones'"]
+    manager.add_to_table("truckPool",info_truckPool,params_truckPool)
 
 def insert_item_into_truck(*args,**kwargs):
     values = []
@@ -52,4 +55,10 @@ def modify_item_from_truck(manager,truck_table,item_name,column_param,new_param)
         manager.modify_row(truck_table,"name",item_name,column_param,new_param)
     except:
         print(f"Error buscando el objeto {item_name}")
+
+def search_items_by_name(manager,truck_table,name_value):
+    l = manager.get_row_by_primary_key(truck_table,"name",name_value)
+    if len(l) == 0:
+        return None
+    return l
     

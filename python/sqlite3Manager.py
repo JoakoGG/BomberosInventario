@@ -50,6 +50,7 @@ class SQLite3Manager():
             sentencia = f"INSERT INTO {table_name} {buffer2} VALUES {buffer1}"
             print(sentencia)
             self.action().execute(sentencia)
+            
             self.connection.commit()     
         except:
             print("row already exists!")
