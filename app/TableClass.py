@@ -2,8 +2,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtSql import QSqlDatabase, QSqlRelation, QSqlRelationalTableModel, QSqlQuery
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-
+from PyQt5.QtGui import *
 
 class TableModel(QAbstractTableModel):
     header = {
@@ -23,6 +22,7 @@ class TableModel(QAbstractTableModel):
     def __init__(self, data):
         super(TableModel, self).__init__()
         self._data = data
+        
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
@@ -48,4 +48,8 @@ class TableModel(QAbstractTableModel):
     def columnCount(self, index):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
-        return len(self._data[0])
+        try:
+            largo = len(self._data[0])
+            return largo
+        except:
+            return 0

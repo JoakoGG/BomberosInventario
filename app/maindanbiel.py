@@ -14,6 +14,12 @@ class VentanaPrincipal(QMainWindow):
     def __init__(self):
         super(VentanaPrincipal, self).__init__()
         loadUi("FirstGuiDesign2.ui", self)
+    print("111")
+        self.table1.selectionModel().selectionChanged.connect()
+
+        def on_selectionChanged(self, selected, deselected):
+            print(selected, deselected)
+
         # Deshabilitar el comportamiento de arrastrar y soltar
         self.table1.setDragDropOverwriteMode(False)
 

@@ -10,7 +10,7 @@ from pathlib import Path
 
 import sys
 
-#.---.
+#---
 class Leyenda(QWidget):
     def __init__(self):
         super().__init__()
@@ -20,7 +20,7 @@ class Leyenda(QWidget):
         winpath = path.replace("\\","/")
         loadUi(winpath, self)
         self.setWindowTitle("Leyenda")
-#.---.
+#---
 
 class VentanaPrincipal(QMainWindow):
     # COLUMNAS TABLAS
@@ -68,16 +68,14 @@ class VentanaPrincipal(QMainWindow):
     # funcion principal de la ventana QMainWindow
     # TODO asignar mas botones a las funciones q le correspondan
     # TODO lo de agregar mas tablas
-
     #.---.
     def abrirLeyenda(self, checked):
         self.w = Leyenda()
         self.w.show()
 
-    def doubleClick(self, mi):
-        print("Fila: {0} | Columna: {1}".format(mi.row(), mi.column()))
-        if(mi.column() == 5):
-            pass
+    def on_selectionChanged(self, selected, deselected):
+        for ix in selected.indexes():
+            print("X: {0} | Y: {1}".format(ix.column(), ix.row()))
     #.---.
 
     def __init__(self):
@@ -87,14 +85,14 @@ class VentanaPrincipal(QMainWindow):
         #Hace que la dirección sea compatible con las funciones de pyqt5 (cambia '\' por '/')
         winpath = path.replace("\\","/")
         loadUi(winpath, self)
-        
+
         # self.btn_menu.clicked.connect(self.open_menu)
         self.showPage(1, 1, 1)
 
         #.---.
         self.btn_leyenda.clicked.connect(self.abrirLeyenda)
 
-        self.table_inv.doubleClicked.connect(self.doubleClick)
+        self.table_inv.selectionModel().selectionChanged.connect(self.on_selectionChanged)
         #.---.
 
         # Funcion buscar
