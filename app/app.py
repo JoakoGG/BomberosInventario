@@ -7,47 +7,54 @@ from sqlite3Manager import SQLite3Manager
 
 import sys
 
+INVENTORY = "inventory"
+
 
 class VentanaPrincipal(QMainWindow):
     # COLUMNAS TABLAS
     # list(columns.keys()) y list(columns.values())
     COLUMNS = {
         "id": "ID",
-        "objid": "Código",
         "name": "Nombre",
+        "inv": "Inventario",
         "subinv": ["Cajonera", "Estante"],
         "level": "Nivel",
         "state": "Estado",
         "obs": "Observación",
-        "brand": "Marca",
-        "model": "Modelo",
         "desc": "Descripción",
+        "qty": "Cantidad",
     }
+    # Arreglo para hacer query a la BD
     ADDCOLUMNS = [
-        "objid",
         "name",
+        "inv",
         "subinv",
         "level",
         "state",
         "obs",
-        "brand",
-        "model",
         "desc",
+        "qty",
     ]
+    # Arreglo para crear la BD
     DBCOLUMNS = [
         "id INTEGER PRIMARY KEY autoincrement",
-        "objid int NULL",  # por ahora null
         "name varchar(255)",
-        "subinv varchar(255)",
-        "level int",
-        "state varchar(255)",
-        "obs varchar(255) NULL",
-        "brand varchar(255) NULL",
-        "model varchar(255) NULL",
-        "desc varchar(255) NULL",
+        "inv varchar(255)",  # INVENTARIO EN DONDE ESTA (bodega, camionX)
+        "subinv varchar(255)",  # Cajonera/Estante
+        "level int",  # Nivel dentro del subinventario
+        "state varchar(255)",  # Estados QUE DEFINAN ELLOS (agregar => operativo, dadodebaja, perdido, prestado)
+        "obs varchar(255) NULL",  # Observación
+        "desc varchar(255) NULL",  # descripcion
+        "qty int",  # cantidad
     ]
     db = SQLite3Manager("database")
-    inv = 0
+    setInv = -1
+    inventories = [
+        "Bodega",
+        "Camion 1",
+        "Camion 2",
+        "Camion 3",
+    ]
 
     # funcion principal de la ventana QMainWindow
     # TODO asignar mas botones a las funciones q le correspondan
@@ -55,6 +62,14 @@ class VentanaPrincipal(QMainWindow):
     def __init__(self):
         super(VentanaPrincipal, self).__init__()
         loadUi("design.ui", self)
+
+        # crear db si no hay una
+        if not self.db.table_exist(INVENTORY):
+            self.db.new_table_with_column_params(INVENTORY, self.DBCOLUMNS)
+
+        # proxymodel para la busqueda
+        self.proxyModel = QSortFilterProxyModel()
+        self.proxyModel.setFilterKeyColumn(-1)  # Busqueda en todas las columnas
 
         # self.btn_menu.clicked.connect(self.open_menu)
         self.showPage(1, 1, 1)
@@ -69,12 +84,46 @@ class VentanaPrincipal(QMainWindow):
         self.btn_inv2.clicked.connect(lambda: self.showPage(1, 2))
         self.btn_inv3.clicked.connect(lambda: self.showPage(1, 3))
         # self.btn_inv3.clicked.connect(lambda: self.db.delete_table("inventario1"))
-
-        self.db.delete_table("inventarioNone")
-
+        # self.db.delete_table("inventarioNone")
         self.btn_agregar.clicked.connect(lambda: self.showPage(2))
-
         self.btn_addnew.clicked.connect(lambda: self.addregister())
+        self.btn_menu.clicked.connect(lambda: self.showSideBar())
+        self.btn_canceladdnew.clicked.connect(lambda: self.showPage(1, self.setInv))
+        self.btn_deselect.clicked.connect(lambda: self.deselectCB(self.cb_filtros))
+        self.setFilters(self.cb_filtros)
+
+    def setTableData(self, invnumber):
+        datos = self.db.get_row_by_column_field(
+            INVENTORY,
+            "inv",
+            self.inventories[invnumber - 1],
+        )
+
+        print(datos)
+
+        try:
+            if datos == None:
+                print("NO existe tabla")
+                return None
+            modelo = TableModel(datos)
+        except:
+            print("error al tener modelo")
+        finally:
+            # Se crea un modelo y se le asigna al QTableView
+            self.proxyModel.setSourceModel(modelo)
+            self.table_inv.setModel(self.proxyModel)
+
+    def setFilters(self, combobox):
+        combobox.addItems([""] + self.getColumnsValues(0))
+
+    def deselectCB(self, combobox):
+        combobox.setCurrentIndex(0)
+
+    def showSideBar(self):
+        if not self.frameinv.isHidden():
+            self.frameinv.hide()
+        else:
+            self.frameinv.show()
 
     # para obtener dependiendo del contexto una lista de las columnas con "Cajonera" o "Estante"
     # TODO hacer para q se pueda identificar el contexto del inventario al que se le asigna
@@ -91,44 +140,35 @@ class VentanaPrincipal(QMainWindow):
         return arr
 
     # usa index-1 para q los indices siempre coincidan con los nombres de los objetos
-    def showPage(self, index: int, table=None, INIT=None):
+    def showPage(self, index, table=None, INIT=None):
+        sidemenu = self.frameinv
         # primero comprueba si esta en la misma pagina y no es el showPage que inicializa
         if (
             (self.stackedWidget.currentIndex() == index - 1)
             and (INIT is None)
-            and (table == self.inv)
+            and (table == self.setInv)
         ):
             return
         # mueve el stackedWidget a la pagina index-1
+        print("cambio")
         self.stackedWidget.setCurrentIndex(index - 1)
 
-        if table != None:
-            tablename = f"inventario{table}"
-            self.inv = table
-            print(tablename)
-            # self.lb_title. CAMBIAR TEXTO TITULO
-
-            # datos = db.getAllColumns(f"inventario{table}")
-            if not self.db.table_exist(tablename):
-                columns = self.DBCOLUMNS
-                self.db.new_table_with_column_params(tablename, columns)
-
-            datos = self.db.getAllColumns(f"{tablename}")
-
-            if datos == None:
-                print("NO existe tabla")
-                return None
-            try:
-                modelo = TableModel(datos)
-            except:
-                print("error al tener modelo")
-            finally:
-                # Se crea un modelo y se le asigna al QTableView
-                self.proxyModel = QSortFilterProxyModel()
-                self.proxyModel.setFilterKeyColumn(-1)  # Busqueda en todas las columnas
-                self.proxyModel.setSourceModel(modelo)
-
-                self.table_inv.setModel(self.proxyModel)
+        match index:
+            case 1:
+                self.setInv = table
+                print(table)
+                title = str(self.inventories[table - 1])
+                print(title)
+                self.lb_title.setText(title)
+                sidemenu.show()
+                self.setTableData(table)
+            case 2:
+                sidemenu.hide()
+                ...
+            case 3:
+                ...
+            case 4:
+                ...
 
     # INVESTIGAR hacer formulario en un popup
     def addregister(self):
@@ -136,29 +176,27 @@ class VentanaPrincipal(QMainWindow):
 
         name = self.le_name.text()
         state = self.cb_state.currentText()
+        inv = self.setInv
         subinv = self.cb_subinv.currentText()
         level = self.cb_level.currentText()
+        qty = self.sp_qty.value()
         obs = self.te_obs.toPlainText()
-        brand = self.le_brand.text()
-        model = self.le_model.text()
         desc = self.te_desc.toPlainText()
 
-        objid = 0  # funcion
-        array = [objid, name, subinv, level, state, obs, brand, model, desc]
+        array = [name, inv, subinv, level, state, obs, desc, qty]
         print(array)
 
-        self.db.add_to_table(f"inventario{self.inv}", array, self.ADDCOLUMNS)
+        self.db.add_to_table(INVENTORY, array, self.ADDCOLUMNS)
         self.cleanregister()
-        self.showPage(1, self.inv)
+        self.showPage(1, self.setInv)
 
     def cleanregister(self):
         self.le_name.setText("")
         self.cb_state.setCurrentIndex(0)
         self.cb_subinv.setCurrentIndex(0)
         self.cb_level.setCurrentIndex(0)
+        self.sp_qty.setValue(0)
         self.te_obs.setText("")
-        self.le_brand.setText("")
-        self.le_model.setText("")
         self.te_desc.setText("")
 
     def addRow(self):

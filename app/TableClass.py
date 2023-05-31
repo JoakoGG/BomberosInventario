@@ -8,14 +8,15 @@ from PyQt5.QtCore import *
 class TableModel(QAbstractTableModel):
     header = {
         "id": "ID",
-        "objid": "Código",
+        # "objid": "Código",
         "name": "Nombre",
+        "inv": "Inventario",
         "subinv": "Cajonera",
         "level": "Nivel",
         "state": "Estado",
         "obs": "Observación",
-        "brand": "Marca",
-        "model": "Modelo",
+        # "brand": "Marca",
+        # "model": "Modelo",
         "desc": "Descripción",
     }
     header_labels = list(header.values())
@@ -48,4 +49,7 @@ class TableModel(QAbstractTableModel):
     def columnCount(self, index):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
-        return len(self._data[0])
+        try:
+            return len(self._data[0])
+        except:
+            return 0

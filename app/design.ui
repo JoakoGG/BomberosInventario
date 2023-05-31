@@ -594,21 +594,31 @@ QHeaderView::section {
                           </spacer>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="btn_buscar">
-                           <property name="sizePolicy">
-                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                             <horstretch>0</horstretch>
-                             <verstretch>0</verstretch>
-                            </sizepolicy>
-                           </property>
+                          <widget class="QComboBox" name="cb_filtros">
                            <property name="minimumSize">
                             <size>
                              <width>100</width>
                              <height>30</height>
                             </size>
                            </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="btn_deselect">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>50</width>
+                             <height>30</height>
+                            </size>
+                           </property>
                            <property name="text">
-                            <string>Buscar</string>
+                            <string>Deseleccionar</string>
                            </property>
                           </widget>
                          </item>
@@ -935,22 +945,7 @@ QVBoxLayout{}</string>
                              <property name="frameShadow">
                               <enum>QFrame::Raised</enum>
                              </property>
-                             <layout class="QVBoxLayout" name="verticalLayout_24">
-                              <property name="spacing">
-                               <number>10</number>
-                              </property>
-                              <property name="leftMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="topMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="rightMargin">
-                               <number>0</number>
-                              </property>
-                              <property name="bottomMargin">
-                               <number>9</number>
-                              </property>
+                             <layout class="QVBoxLayout" name="verticalLayout_17">
                               <item>
                                <widget class="QFrame" name="f1name">
                                 <property name="minimumSize">
@@ -1155,17 +1150,27 @@ QVBoxLayout{}</string>
                                         </property>
                                         <item>
                                          <property name="text">
-                                          <string>Nuevo</string>
+                                          <string>Sin uso</string>
                                          </property>
                                         </item>
                                         <item>
                                          <property name="text">
-                                          <string>Usado</string>
+                                          <string>Operativo</string>
                                          </property>
                                         </item>
                                         <item>
                                          <property name="text">
-                                          <string>Roto</string>
+                                          <string>Dado de baja</string>
+                                         </property>
+                                        </item>
+                                        <item>
+                                         <property name="text">
+                                          <string>Perdido</string>
+                                         </property>
+                                        </item>
+                                        <item>
+                                         <property name="text">
+                                          <string>Prestado</string>
                                          </property>
                                         </item>
                                        </widget>
@@ -1328,6 +1333,61 @@ QVBoxLayout{}</string>
                                       </item>
                                      </layout>
                                     </item>
+                                    <item>
+                                     <spacer name="horizontalSpacer_10">
+                                      <property name="orientation">
+                                       <enum>Qt::Horizontal</enum>
+                                      </property>
+                                      <property name="sizeType">
+                                       <enum>QSizePolicy::Fixed</enum>
+                                      </property>
+                                      <property name="sizeHint" stdset="0">
+                                       <size>
+                                        <width>20</width>
+                                        <height>20</height>
+                                       </size>
+                                      </property>
+                                     </spacer>
+                                    </item>
+                                    <item>
+                                     <layout class="QVBoxLayout" name="vl4">
+                                      <item>
+                                       <widget class="QLabel" name="lb_qty">
+                                        <property name="minimumSize">
+                                         <size>
+                                          <width>0</width>
+                                          <height>30</height>
+                                         </size>
+                                        </property>
+                                        <property name="font">
+                                         <font>
+                                          <family>Microsoft YaHei</family>
+                                          <pointsize>12</pointsize>
+                                          <weight>50</weight>
+                                          <italic>false</italic>
+                                          <bold>false</bold>
+                                         </font>
+                                        </property>
+                                        <property name="text">
+                                         <string>Cantidad</string>
+                                        </property>
+                                        <property name="textFormat">
+                                         <enum>Qt::AutoText</enum>
+                                        </property>
+                                       </widget>
+                                      </item>
+                                      <item>
+                                       <widget class="QSpinBox" name="sp_qty">
+                                        <property name="minimumSize">
+                                         <size>
+                                          <width>0</width>
+                                          <height>30</height>
+                                         </size>
+                                        </property>
+                                       </widget>
+                                      </item>
+                                     </layout>
+                                    </item>
                                    </layout>
                                   </widget>
                                  </item>
@@ -1454,214 +1514,6 @@ QVBoxLayout{}</string>
                                    </item>
                                    <item>
                                     <widget class="QLabel" name="lb_obsERR">
-                                     <property name="minimumSize">
-                                      <size>
-                                       <width>100</width>
-                                       <height>30</height>
-                                      </size>
-                                     </property>
-                                     <property name="text">
-                                      <string/>
-                                     </property>
-                                    </widget>
-                                   </item>
-                                  </layout>
-                                 </item>
-                                </layout>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QFrame" name="f4brand">
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>0</width>
-                                  <height>80</height>
-                                 </size>
-                                </property>
-                                <property name="frameShape">
-                                 <enum>QFrame::StyledPanel</enum>
-                                </property>
-                                <property name="frameShadow">
-                                 <enum>QFrame::Raised</enum>
-                                </property>
-                                <layout class="QVBoxLayout" name="verticalLayout_22">
-                                 <property name="spacing">
-                                  <number>10</number>
-                                 </property>
-                                 <property name="topMargin">
-                                  <number>0</number>
-                                 </property>
-                                 <property name="bottomMargin">
-                                  <number>0</number>
-                                 </property>
-                                 <item>
-                                  <widget class="QLabel" name="lb_brand">
-                                   <property name="minimumSize">
-                                    <size>
-                                     <width>0</width>
-                                     <height>30</height>
-                                    </size>
-                                   </property>
-                                   <property name="font">
-                                    <font>
-                                     <family>Microsoft YaHei</family>
-                                     <pointsize>12</pointsize>
-                                     <weight>50</weight>
-                                     <italic>false</italic>
-                                     <bold>false</bold>
-                                    </font>
-                                   </property>
-                                   <property name="text">
-                                    <string>Marca</string>
-                                   </property>
-                                   <property name="textFormat">
-                                    <enum>Qt::AutoText</enum>
-                                   </property>
-                                  </widget>
-                                 </item>
-                                 <item>
-                                  <layout class="QHBoxLayout" name="horizontalLayout_18">
-                                   <property name="spacing">
-                                    <number>0</number>
-                                   </property>
-                                   <property name="topMargin">
-                                    <number>0</number>
-                                   </property>
-                                   <property name="bottomMargin">
-                                    <number>0</number>
-                                   </property>
-                                   <item>
-                                    <widget class="QLineEdit" name="le_brand">
-                                     <property name="minimumSize">
-                                      <size>
-                                       <width>0</width>
-                                       <height>30</height>
-                                      </size>
-                                     </property>
-                                    </widget>
-                                   </item>
-                                   <item>
-                                    <spacer name="horizontalSpacer_19">
-                                     <property name="orientation">
-                                      <enum>Qt::Horizontal</enum>
-                                     </property>
-                                     <property name="sizeType">
-                                      <enum>QSizePolicy::Fixed</enum>
-                                     </property>
-                                     <property name="sizeHint" stdset="0">
-                                      <size>
-                                       <width>50</width>
-                                       <height>10</height>
-                                      </size>
-                                     </property>
-                                    </spacer>
-                                   </item>
-                                   <item>
-                                    <widget class="QLabel" name="lb_brandERR">
-                                     <property name="minimumSize">
-                                      <size>
-                                       <width>100</width>
-                                       <height>30</height>
-                                      </size>
-                                     </property>
-                                     <property name="text">
-                                      <string/>
-                                     </property>
-                                    </widget>
-                                   </item>
-                                  </layout>
-                                 </item>
-                                </layout>
-                               </widget>
-                              </item>
-                              <item>
-                               <widget class="QFrame" name="f5model">
-                                <property name="minimumSize">
-                                 <size>
-                                  <width>0</width>
-                                  <height>80</height>
-                                 </size>
-                                </property>
-                                <property name="frameShape">
-                                 <enum>QFrame::StyledPanel</enum>
-                                </property>
-                                <property name="frameShadow">
-                                 <enum>QFrame::Raised</enum>
-                                </property>
-                                <layout class="QVBoxLayout" name="verticalLayout_23">
-                                 <property name="spacing">
-                                  <number>10</number>
-                                 </property>
-                                 <property name="topMargin">
-                                  <number>0</number>
-                                 </property>
-                                 <property name="bottomMargin">
-                                  <number>0</number>
-                                 </property>
-                                 <item>
-                                  <widget class="QLabel" name="lb_model">
-                                   <property name="minimumSize">
-                                    <size>
-                                     <width>0</width>
-                                     <height>30</height>
-                                    </size>
-                                   </property>
-                                   <property name="font">
-                                    <font>
-                                     <family>Microsoft YaHei</family>
-                                     <pointsize>12</pointsize>
-                                     <weight>50</weight>
-                                     <italic>false</italic>
-                                     <bold>false</bold>
-                                    </font>
-                                   </property>
-                                   <property name="text">
-                                    <string>Modelo</string>
-                                   </property>
-                                   <property name="textFormat">
-                                    <enum>Qt::AutoText</enum>
-                                   </property>
-                                  </widget>
-                                 </item>
-                                 <item>
-                                  <layout class="QHBoxLayout" name="horizontalLayout_17">
-                                   <property name="spacing">
-                                    <number>0</number>
-                                   </property>
-                                   <property name="topMargin">
-                                    <number>0</number>
-                                   </property>
-                                   <property name="bottomMargin">
-                                    <number>0</number>
-                                   </property>
-                                   <item>
-                                    <widget class="QLineEdit" name="le_model">
-                                     <property name="minimumSize">
-                                      <size>
-                                       <width>0</width>
-                                       <height>30</height>
-                                      </size>
-                                     </property>
-                                    </widget>
-                                   </item>
-                                   <item>
-                                    <spacer name="horizontalSpacer_18">
-                                     <property name="orientation">
-                                      <enum>Qt::Horizontal</enum>
-                                     </property>
-                                     <property name="sizeType">
-                                      <enum>QSizePolicy::Fixed</enum>
-                                     </property>
-                                     <property name="sizeHint" stdset="0">
-                                      <size>
-                                       <width>50</width>
-                                       <height>10</height>
-                                      </size>
-                                     </property>
-                                    </spacer>
-                                   </item>
-                                   <item>
-                                    <widget class="QLabel" name="lb_modelERR">
                                      <property name="minimumSize">
                                       <size>
                                        <width>100</width>
@@ -1820,7 +1672,7 @@ QVBoxLayout{}</string>
                         <number>9</number>
                        </property>
                        <item>
-                        <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0">
+                        <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0">
                          <property name="spacing">
                           <number>0</number>
                          </property>
@@ -1861,6 +1713,35 @@ QVBoxLayout{}</string>
                             <size>
                              <width>40</width>
                              <height>20</height>
+                            </size>
+                           </property>
+                          </spacer>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="btn_canceladdnew">
+                           <property name="minimumSize">
+                            <size>
+                             <width>150</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string>Cancelar</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <spacer name="horizontalSpacer_7">
+                           <property name="orientation">
+                            <enum>Qt::Horizontal</enum>
+                           </property>
+                           <property name="sizeType">
+                            <enum>QSizePolicy::Fixed</enum>
+                           </property>
+                           <property name="sizeHint" stdset="0">
+                            <size>
+                             <width>50</width>
+                             <height>10</height>
                             </size>
                            </property>
                           </spacer>

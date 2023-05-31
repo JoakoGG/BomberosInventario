@@ -54,9 +54,9 @@ class SQLite3Manager:
             self.action().execute(sentencia)
             self.connection.commit()
 
-    def get_row_by_primary_key(self, table_name, primary_key, value):
+    def get_row_by_column_field(self, table_name, field, value):
         try:
-            sentencia = f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"
+            sentencia = f"SELECT * FROM {table_name} WHERE {field}='{value}'"
             return list(self.action().execute(sentencia))
         except:
             return None
