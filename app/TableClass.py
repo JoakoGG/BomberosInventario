@@ -18,6 +18,7 @@ class TableModel(QAbstractTableModel):
         # "brand": "Marca",
         # "model": "Modelo",
         "desc": "Descripción",
+        "qty": "Cantidad",
     }
     header_labels = list(header.values())
 

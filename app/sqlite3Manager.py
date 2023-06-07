@@ -54,7 +54,7 @@ class SQLite3Manager:
             self.action().execute(sentencia)
             self.connection.commit()
 
-    def get_row_by_column_field(self, table_name, field, value):
+    def get_rows_by_column_field(self, table_name, field, value):
         try:
             sentencia = f"SELECT * FROM {table_name} WHERE {field}='{value}'"
             return list(self.action().execute(sentencia))
@@ -69,23 +69,25 @@ class SQLite3Manager:
             return None
 
     def row_exists(self, table_name, primary_key, value):
-        return (
-            len(
-                list(
-                    self.action().execute(
-                        f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"
-                    )
-                )
-            )
-            > 0
-        )
+        sentencia = f"SELECT * FROM {table_name} WHERE {primary_key}='{value}'"
+        length = len(list(self.action().execute(sentencia)))
+        return length > 0
 
-    def getAllColumns(self, table):
-        sentencia = f"SELECT * FROM {table}"
+    def getAllColumns(self, table_name):
+        sentencia = f"SELECT * FROM {table_name}"
         try:
             return list(self.action().execute(sentencia))
         except:
             print("La peticion a la base de datos no se pudo realizar")
+            return None
+
+    def edit_column_values(self, table_name, column, value, key, clause):
+        sentencia = f"UPDATE {table_name} SET {column} = {value} WHERE {key} = {clause}"
+        try:
+            self.connection.execute(sentencia)
+            print(sentencia)
+        except:
+            print("error")
             return None
 
     def table_exist(self, table_name):

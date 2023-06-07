@@ -55,6 +55,18 @@ class VentanaPrincipal(QMainWindow):
         "Camion 2",
         "Camion 3",
     ]
+    FILTERS = {
+        "Sin Filtro": -1,
+        "ID": 0,
+        "Nombre": 1,
+        "Inventario": 2,
+        "Cajonera": 3,
+        "Nivel": 4,
+        "Estado": 5,
+        "Observación": 6,
+        "Descripción": 7,
+        "Cantidad": 8,
+    }
 
     # funcion principal de la ventana QMainWindow
     # TODO asignar mas botones a las funciones q le correspondan
@@ -62,6 +74,19 @@ class VentanaPrincipal(QMainWindow):
     def __init__(self):
         super(VentanaPrincipal, self).__init__()
         loadUi("design.ui", self)
+
+        btn_inv1: QPushButton
+        btn_inv2: QPushButton
+        btn_inv3: QPushButton
+        btn_agregar: QPushButton
+        btn_addnew: QPushButton
+        btn_menu: QPushButton
+        btn_canceladdnew: QPushButton
+        btn_deselect: QPushButton
+        le_buscar: QLineEdit
+        proxyModel: QSortFilterProxyModel
+        cb_filtros: QComboBox
+        table_inv: QTableView
 
         # crear db si no hay una
         if not self.db.table_exist(INVENTORY):
@@ -89,11 +114,27 @@ class VentanaPrincipal(QMainWindow):
         self.btn_addnew.clicked.connect(lambda: self.addregister())
         self.btn_menu.clicked.connect(lambda: self.showSideBar())
         self.btn_canceladdnew.clicked.connect(lambda: self.showPage(1, self.setInv))
+
         self.btn_deselect.clicked.connect(lambda: self.deselectCB(self.cb_filtros))
         self.setFilters(self.cb_filtros)
+        print(self.cb_filtros.currentIndex())
+        self.cb_filtros.currentTextChanged.connect(
+            lambda: self.setFilter(self.cb_filtros.currentText())
+        )
+
+        self.table_inv.doubleClicked.connect(self.edit)
+
+    def edit(self, mi):
+        print(str(mi.row()) + " " + str(mi.column()))
+
+    def setFilter(self, filter):
+        print(filter)
+        n = self.FILTERS.get(filter)
+        print(n)
+        self.proxyModel.setFilterKeyColumn(n)
 
     def setTableData(self, invnumber):
-        datos = self.db.get_row_by_column_field(
+        datos = self.db.get_rows_by_column_field(
             INVENTORY,
             "inv",
             self.inventories[invnumber - 1],
@@ -114,7 +155,7 @@ class VentanaPrincipal(QMainWindow):
             self.table_inv.setModel(self.proxyModel)
 
     def setFilters(self, combobox):
-        combobox.addItems([""] + self.getColumnsValues(0))
+        combobox.addItems(["Sin Filtro"] + self.getColumnsValues(0))
 
     def deselectCB(self, combobox):
         combobox.setCurrentIndex(0)
@@ -150,7 +191,6 @@ class VentanaPrincipal(QMainWindow):
         ):
             return
         # mueve el stackedWidget a la pagina index-1
-        print("cambio")
         self.stackedWidget.setCurrentIndex(index - 1)
 
         match index:
@@ -176,7 +216,7 @@ class VentanaPrincipal(QMainWindow):
 
         name = self.le_name.text()
         state = self.cb_state.currentText()
-        inv = self.setInv
+        inv = self.inventories[self.setInv - 1]
         subinv = self.cb_subinv.currentText()
         level = self.cb_level.currentText()
         qty = self.sp_qty.value()
