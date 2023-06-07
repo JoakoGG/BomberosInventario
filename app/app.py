@@ -122,7 +122,24 @@ class VentanaPrincipal(QMainWindow):
             lambda: self.setFilter(self.cb_filtros.currentText())
         )
 
-        self.table_inv.doubleClicked.connect(self.edit)
+        self.table_inv.installEventFilter(self)
+        # self.table_inv.ContextMenu.clicked(lambda: self.menu())
+        # self.table_inv.doubleClicked.connect(self.edit)
+
+    def menu(self, pos):
+        menu = QMenu()
+        menu.addAction("Action 1")
+        menu.addAction("Action 2")
+        menu.addAction("Action 3")
+        menu.exec_(pos)
+
+    def eventFilter(self, source, event):
+        if event.type() == QEvent.ContextMenu and source is self.table_inv:
+            self.menu(event.globalPos())
+            print((event.globalPos()))
+            return True
+        else:
+            return super().eventFilter(source, event)
 
     def edit(self, mi):
         print(str(mi.row()) + " " + str(mi.column()))
