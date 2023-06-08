@@ -1,6 +1,9 @@
+import typing
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import QWidget
 from PyQt5.uic import loadUi
 from TableClass import TableModel
 from sqlite3Manager import SQLite3Manager
@@ -8,6 +11,13 @@ from sqlite3Manager import SQLite3Manager
 import sys
 
 INVENTORY = "inventory"
+
+
+class Leyenda(QWidget):
+    def __init__(self):
+        super().__init__()
+        loadUi("leyenda.ui", self)
+        self.setWindowTitle("Leyenda")
 
 
 class VentanaPrincipal(QMainWindow):
@@ -126,23 +136,64 @@ class VentanaPrincipal(QMainWindow):
         # self.table_inv.ContextMenu.clicked(lambda: self.menu())
         # self.table_inv.doubleClicked.connect(self.edit)
 
-    def menu(self, pos):
-        menu = QMenu()
-        menu.addAction("Action 1")
-        menu.addAction("Action 2")
-        menu.addAction("Action 3")
-        menu.exec_(pos)
-
     def eventFilter(self, source, event):
         if event.type() == QEvent.ContextMenu and source is self.table_inv:
-            self.menu(event.globalPos())
-            print((event.globalPos()))
+            self.contextMenu(event)
             return True
         else:
             return super().eventFilter(source, event)
 
-    def edit(self, mi):
-        print(str(mi.row()) + " " + str(mi.column()))
+    def contextMenu(self, event):
+        menu = QMenu()
+        moveDataToContainer = QAction("Mover elementos hacia...", self)
+        moveDataToContainer.triggered.connect(lambda: self.moverHaciaContenedor(event))
+
+        deleteData = QAction("Eliminar elementos", self)
+        deleteData.triggered.connect(lambda: print("ola soy una funcion sin terminar"))
+        changeDataState = QAction("Asignar nuevo estado", self)
+        changeDataState.triggered.connect(
+            lambda: print("ola soy una funcion sin terminar")
+        )
+        # añadir e implementar mas funciones
+
+        menu.addAction(moveDataToContainer)
+        menu.addAction(deleteData)
+        menu.addAction(changeDataState)
+        # menu.popup(QCursor.pos())
+        menu.exec_(event.globalPos())
+
+    # def eventFilter(self, source, event):
+    #     if event.type() == QEvent.ContextMenu and source is self.table_inv:
+    #         self.menu(event.globalPos())
+    #         print((event.globalPos()))
+    #         return True
+    #     else:
+    #         return super().eventFilter(source, event)
+
+    # HACER FUNCION DE EDITAR CON LA COSA DEL PANTOJA O LO Q SEA DE LA BASE DE DATOS
+    def moverHaciaContenedor(self, event):
+        rows: list = self.getSelectedRows(event)
+        self.view = Leyenda()
+        self.view.show()
+
+    def getSelectedRows(self, event) -> list:
+        tv: QTableView = self.table_inv
+        rows = {index.row() for index in tv.selectionModel().selectedIndexes()}
+        print(f"Filas seleccionadas: {rows}")
+        output = []
+        for row in rows:
+            rowdata = []
+            for column in range(tv.model().columnCount()):
+                index = tv.model().index(row, column)
+                rowdata.append(index.data())
+            output.append(rowdata)
+        print("Los datos rescatados son")
+        for i in output:
+            print(i)
+        return output
+        # fila = tv.rowAt(event.pos().y())
+        # columna = tv.columnAt(event.pos().x())
+        # print((fila, columna))
 
     def setFilter(self, filter):
         print(filter)
@@ -152,13 +203,9 @@ class VentanaPrincipal(QMainWindow):
 
     def setTableData(self, invnumber):
         datos = self.db.get_rows_by_column_field(
-            INVENTORY,
-            "inv",
-            self.inventories[invnumber - 1],
+            INVENTORY, "inv", self.inventories[invnumber - 1]
         )
-
         print(datos)
-
         try:
             if datos == None:
                 print("NO existe tabla")
