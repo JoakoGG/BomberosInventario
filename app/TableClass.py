@@ -2,21 +2,18 @@ from PyQt5.QtCore import *
 from PyQt5.QtSql import QSqlDatabase, QSqlRelation, QSqlRelationalTableModel, QSqlQuery
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 
 class TableModel(QAbstractTableModel):
     header = {
         "id": "ID",
-        # "objid": "Código",
         "name": "Nombre",
         "inv": "Inventario",
         "subinv": "Cajonera",
         "level": "Nivel",
         "state": "Estado",
         "obs": "Observación",
-        # "brand": "Marca",
-        # "model": "Modelo",
         "desc": "Descripción",
         "qty": "Cantidad",
     }
@@ -34,6 +31,17 @@ class TableModel(QAbstractTableModel):
     def data(self, index, role):
         if role == Qt.DisplayRole:
             return self._data[index.row()][index.column()]
+        if role == Qt.BackgroundRole and index.column() == 5:
+            if isinstance(index.data(), str) and index.data() == "Operativo":
+                return QColor("#00e626")
+            elif isinstance(index.data(), str) and index.data() == "Sin uso":
+                return QColor("#ffbf00")
+            elif isinstance(index.data(), str) and index.data() == "Dado de baja":
+                return QColor("#ec0000")
+            elif isinstance(index.data(), str) and index.data() == "Prestado":
+                return QColor("#00b0fc")
+            elif isinstance(index.data(), str) and index.data() == "Perdido":
+                return QColor("#919191")
 
     def setData(self, new_data):
         self._data = new_data
@@ -51,6 +59,7 @@ class TableModel(QAbstractTableModel):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
         try:
-            return len(self._data[0])
+            largo = len(self._data[0])
+            return largo
         except:
             return 0

@@ -98,6 +98,47 @@ class SQLite3Manager:
         except:
             return False
 
+    def delete_row(self, table_name, primary_key, primary_key_value):
+        try:
+            sentencia = (
+                f"DELETE FROM {table_name} WHERE {primary_key} = '{primary_key_value}'"
+            )
+            print(sentencia)
+            self.action().execute(sentencia)
+            self.connection.commit()
+        except:
+            raise Exception
+
+    def modify_row(
+        self, table_name, primary_key, primary_key_value, column, new_column_param
+    ):
+        # Modifica solamente un parámetro a la vez, esto para tener mayor control de cada uno de los update
+        try:
+            sentencia = f"UPDATE {table_name} SET {column} = {new_column_param} WHERE {primary_key} = {primary_key_value}"
+            print(sentencia)
+            self.action().execute(sentencia)
+            self.connection.commit()
+        except:
+            raise Exception
+
+    def edit_row(
+        self, table_name, columns, new_column_values, primary_key, primary_key_value
+    ):
+        # PREFERIBLEMENTE EL PRIMARY KEY TIENE QUE SER ENTERO
+        try:
+            buffer = f"UPDATE {table_name} SET "
+            for i in range(len(columns) - 1):
+                buffer += f"{columns[i]}='{new_column_values[i]}', "
+            buffer += f"{columns[i+1]}='{new_column_values[i+1]}' "
+
+            buffer += f"WHERE {primary_key}={primary_key_value}"
+            sentencia = buffer
+            self.action().execute(sentencia)
+            print(sentencia)
+            self.connection.commit()
+        except:
+            raise Exception
+
 
 # AGREGAR TIENE EL SIGUIENTE FORMATO:
 # info_array = ["atributo1","atributo2","atributo3",..."atributoN"]
