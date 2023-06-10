@@ -66,8 +66,8 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="layoutDirection">
-          <enum>Qt::LeftToRight</enum>
+         <property name="autoFillBackground">
+          <bool>false</bool>
          </property>
          <property name="styleSheet">
           <string notr="true">QFrame{
@@ -105,24 +105,6 @@ Spacer{
           <number>0</number>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="sizeConstraint">
-           <enum>QLayout::SetMaximumSize</enum>
-          </property>
-          <property name="leftMargin">
-           <number>9</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>9</number>
-          </property>
-          <property name="bottomMargin">
-           <number>14</number>
-          </property>
           <item>
            <widget class="QLabel" name="lb_mainapp">
             <property name="sizePolicy">
@@ -326,12 +308,43 @@ Spacer{
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="btn_addinv">
-            <property name="text">
-             <string>Nuevo inventario</string>
+           <widget class="QPushButton" name="btn_insignia">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+              <horstretch>1</horstretch>
+              <verstretch>1</verstretch>
+             </sizepolicy>
             </property>
-            <property name="checkable">
-             <bool>false</bool>
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>80</height>
+             </size>
+            </property>
+            <property name="sizeIncrement">
+             <size>
+              <width>1</width>
+              <height>1</height>
+             </size>
+            </property>
+            <property name="baseSize">
+             <size>
+              <width>1</width>
+              <height>1</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>F:/Descargas/logo-arica.23a59de.png</normaloff>F:/Descargas/logo-arica.23a59de.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>80</width>
+              <height>80</height>
+             </size>
             </property>
             <property name="flat">
              <bool>true</bool>
@@ -1916,8 +1929,8 @@ QVBoxLayout{}</string>
                            <rect>
                             <x>0</x>
                             <y>0</y>
-                            <width>933</width>
-                            <height>717</height>
+                            <width>639</width>
+                            <height>517</height>
                            </rect>
                           </property>
                           <layout class="QVBoxLayout" name="verticalLayout_26">

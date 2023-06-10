@@ -142,6 +142,8 @@ class VentanaPrincipal(QMainWindow):
         bi2: QPushButton = self.btn_inv2
         bi3: QPushButton = self.btn_inv3
         bi4: QPushButton = self.btn_inv4
+        # bin: QPushButton = self.btn_insignia
+
         bi1.setText(self.inventories[0])
         bi2.setText(self.inventories[1])
         bi3.setText(self.inventories[2])
