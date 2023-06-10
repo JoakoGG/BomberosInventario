@@ -45,6 +45,7 @@ class VentanaPrincipal(QMainWindow):
         "desc",
         "qty",
     ]
+
     # Arreglo para crear la BD
     DBCOLUMNS = [
         "id INTEGER PRIMARY KEY autoincrement",
@@ -209,21 +210,43 @@ class VentanaPrincipal(QMainWindow):
     def contextMenu(self, event):
         menu: QMenu = QMenu(self)
 
-        opcionesInventarios: QMenu = QMenu("Mover elementos hacia...")
+        # TODO implementar más funciones
+
+        opcionesInventarios: QMenu = QMenu("Mover elementos hacia...", menu)
+        mvinvgrp = QActionGroup(self)
         for inv in self.inventories:
             qA = QAction(f"{inv}", opcionesInventarios)
-            qA.triggered.connect(lambda: self.moverHaciaContenedor(event, inv=inv))
+            mvinvgrp.addAction(qA)
+            # func: QVariant = QVariant.nameToType(function)
+            # func = lambda: self.moverHaciaContenedor(inv)
+            qA.triggered.connect(
+                lambda checked, INV=inv, VALUE="inv": self.editRowValue(
+                    VALUE,
+                    INV,
+                )
+            )
             opcionesInventarios.addAction(qA)
+
+        opcionesEstados: QMenu = QMenu("Asignar nuevo estado...", menu)
+        chsttgrp = QActionGroup(self)
+        for state in self.STATES.keys():
+            qA = QAction(f"{state}", opcionesEstados)
+            chsttgrp.addAction(qA)
+            qA.triggered.connect(
+                lambda checked, STATE=state, VALUE="state": self.editRowValue(
+                    VALUE,
+                    STATE,
+                )
+            )
+            opcionesEstados.addAction(qA)
 
         deleteData = QAction("Eliminar elementos", self)
         deleteData.triggered.connect(lambda: self.deleteRegister())
-        changeDataState = QAction("Asignar nuevo estado", self)
-        changeDataState.triggered.connect(lambda: NotImplemented)
-        # TODO e implementar más funciones
 
+        # Agregando al ContextMenu los submenús y acciones
         menu.addMenu(opcionesInventarios)
+        menu.addMenu(opcionesEstados)
         menu.addAction(deleteData)
-        menu.addAction(changeDataState)
         # menu.addMenu(secmenu)
         # menu.popup(QCursor.pos())
         menu.exec_(event.globalPos())
@@ -236,14 +259,24 @@ class VentanaPrincipal(QMainWindow):
     #     else:
     #         return super().eventFilter(source, event)
 
-    # HACER FUNCION DE EDITAR CON LA COSA DEL PANTOJA O LO Q SEA DE LA BASE DE DATOS
-    def moverHaciaContenedor(self, event, inv=None):
-        rows: list = self.getSelectedRows(event)
-        # self.view = Leyenda()
-        # self.view.show()
-        # print(inv)
+    # # HACER FUNCION DE EDITAR CON LA COSA DEL PANTOJA O LO Q SEA DE LA BASE DE DATOS
+    # def moverHaciaContenedor(self, inv=None):
+    #     rows: list = self.getSelectedRows()
+    #     print(inv)
+    #     # print(inv)
+
+    def editRowValue(self, value, state):
+        rows = self.getSelectedRows()
+        for row in rows:
+            print(row)
+            id = row[0]
+            self.db.edit_row(INVENTORY, [value], [state], "id", id)
+        self.setTableData(self.setInv)
 
     def editarFila(self):
+        ...
+
+    def getSingleRow(self) -> list:
         ...
 
     def getSelectedRows(self) -> list:
@@ -453,7 +486,7 @@ class VentanaPrincipal(QMainWindow):
             message_box.setStandardButtons(QMessageBox.Ok)
             message_box.exec_()
 
-    def getInfoRow(self, row):
+    def getInfoRow(self, row) -> list:
         array = []
         model = self.table_inv.model()
         for column in range(len(self.FILTERS)):

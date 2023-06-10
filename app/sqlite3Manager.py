@@ -122,22 +122,27 @@ class SQLite3Manager:
             raise Exception
 
     def edit_row(
-        self, table_name, columns, new_column_values, primary_key, primary_key_value
+        self,
+        table_name: str,
+        columns: list,
+        new_column_values: list,
+        primary_key: str,
+        primary_key_value: int,
     ):
         # PREFERIBLEMENTE EL PRIMARY KEY TIENE QUE SER ENTERO
         try:
             buffer = f"UPDATE {table_name} SET "
-            for i in range(len(columns) - 1):
-                buffer += f"{columns[i]}='{new_column_values[i]}', "
-            buffer += f"{columns[i+1]}='{new_column_values[i+1]}' "
-
+            for value, newvalue in zip(columns, new_column_values):
+                buffer += f"{value}='{newvalue}', "
+            if len(columns) == 1:
+                buffer = buffer.replace(",", "")
             buffer += f"WHERE {primary_key}={primary_key_value}"
             sentencia = buffer
-            self.action().execute(sentencia)
             print(sentencia)
+            self.action().execute(sentencia)
             self.connection.commit()
         except:
-            raise Exception
+            pass
 
 
 # AGREGAR TIENE EL SIGUIENTE FORMATO:
