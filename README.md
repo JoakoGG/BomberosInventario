@@ -1,5 +1,4 @@
-# BomberosInventario
-
+# Bomberos inventario
 ## Notas magicas:
 
 - en las cajoneras agregar una especifica para techo (despues preocuparse de la bodega primero camiones)
